@@ -1,0 +1,12 @@
+.feedback-node {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin: auto;
+    height: 20px;
+    text-align: center;
+    background: white;
+    border-radius: 50%;
+    border: 1px solid black;
+}

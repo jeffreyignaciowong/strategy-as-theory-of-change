@@ -1,0 +1,18 @@
+.resource-node {
+    min-height: 50px; /* set a minimum height for the parent element */
+    height: min-content; /* allow the height to adjust based on the content */
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+}
+
+.resource-node label {
+    display: block;
+    color: black;
+    font-size: 12px;
+}
+
+.text-area {
+    border-radius: 5px;
+}
