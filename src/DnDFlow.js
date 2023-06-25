@@ -176,22 +176,6 @@ const DnDFlow = () => {
                     console.log(res);
 
                     createNodeHelper(type, position, name, nodeNumber);
-
-                    // const newNode = {
-                    //     // sourcePosition: 'right',
-                    //     // targetPosition: 'left',
-                    //     data: {
-                    //         name: name,
-                    //         textData: "",
-                    //         nodeNumber,
-                    //     },
-                    //     id: id,
-                    //     type,
-                    //     position,
-                    //     // data: { label: `${name}` },
-                    // };
-                    //
-                    // setNodes((nds) => nds.concat(newNode));
                     return res;
                 })
             } else {
@@ -203,75 +187,9 @@ const DnDFlow = () => {
                     console.log('new obj created');
                     console.log(res);
                     createNodeHelper(type, position, name, nodeNumber);
-                    // const id = `${name}_${nodeNumber}`;
-                    // const newNode = {
-                    //     // sourcePosition: 'right',
-                    //     // targetPosition: 'left',
-                    //     data: {
-                    //         name: name,
-                    //         textData: "",
-                    //         nodeNumber,
-                    //     },
-                    //     id: id,
-                    //     type,
-                    //     position,
-                    //     // data: { label: `${name}` },
-                    // };
-                    //
-                    // setNodes((nds) => nds.concat(newNode));
                     return res;
                 })
             }
-
-
-            // if(deletedNodes[type] !== undefined && deletedNodes[type].length > 0) {
-            //     // The queue is O(n) right now. might change later
-            //     const newList = [...(deletedNodes[type])]
-            //     const newVal = newList.shift();
-            //     // setDeletedNodes((prev) => ({ ...prev, [type]: newList}))
-            //     setDeletedNodes((prev) => {
-            //         const res = {...prev, [type]: newList};
-            //         console.log('recreate obj');
-            //         console.log(res);
-            //         return res;
-            //     })
-            //     return { id:`${type}_${newVal}`, nodeNumber:newVal};
-            // }
-            // let newVal;
-            // setNodeCount((prev)=> {
-            //     console.log('newVal:');
-            //     console.log(newVal)
-            //     newVal = isNaN(prev[type]+1)? 1: prev[type]+1;
-            //     const res = { ...prev, [type]: newVal };
-            //     console.log('newVal:');
-            //     console.log(newVal)
-            //     console.log('new obj created');
-            //     console.log(res);
-            //     return res;
-            // })
-            // return { id:`${type}_${newVal}`, nodeNumber:newVal};
-
-
-
-
-            // const {id, nodeNumber} = getIdAndNumber(type);
-            // const {id, nodeNumber} = getIdAndNumber(name);
-            // const newNode = {
-            //     // sourcePosition: 'right',
-            //     // targetPosition: 'left',
-            //     data: {
-            //         name: name,
-            //         textData: "",
-            //         nodeCount,
-            //         nodeNumber,
-            //     },
-            //     id: id,
-            //     type,
-            //     position,
-            //     // data: { label: `${name}` },
-            // };
-            //
-            // setNodes((nds) => nds.concat(newNode));
         },
         [reactFlowInstance, deletedNodes, nodeCount]
     );
