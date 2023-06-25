@@ -21,12 +21,12 @@ import Sidebar from './Sidebar';
 import './index.css';
 
 const initialNodes = [
-    {
-        id: '1',
-        type: 'input',
-        data: { label: 'input node' },
-        position: { x: 250, y: 5 },
-    },
+    // {
+    //     id: '1',
+    //     type: 'input',
+    //     data: { label: 'input node' },
+    //     position: { x: 250, y: 5 },
+    // },
 ];
 
 // Used in on delete hook and in getIdAndNumber since the numbers from a deleted node should be reused
@@ -76,6 +76,9 @@ const DnDFlow = () => {
         ResourceNode: ResourceNode,
         FeedbackNode: FeedbackNode,
     }), []);
+    // Follow 2 lines used for restoring state when uploaded
+    const [rfInstance, setRfInstance] = useState(null);
+    const { setViewport } = useReactFlow();
 
     const onNodesDelete = useCallback(
         (deleted) => {
@@ -84,7 +87,8 @@ const DnDFlow = () => {
                 console.log("node");
                 console.log(node);
                 const nodeNum = node.data.nodeNumber;
-                const nodeType = node.type;
+                // const nodeType = node.type;
+                const nodeType = node.data.name;
                 console.log(nodeNum);
                 console.log(nodeType);
                 console.log(deletedNodes[nodeType]);
@@ -144,11 +148,13 @@ const DnDFlow = () => {
                 x: event.clientX - reactFlowBounds.left,
                 y: event.clientY - reactFlowBounds.top,
             });
-            const {id, nodeNumber} = getIdAndNumber(type);
+            // const {id, nodeNumber} = getIdAndNumber(type);
+            const {id, nodeNumber} = getIdAndNumber(name);
             const newNode = {
                 // sourcePosition: 'right',
                 // targetPosition: 'left',
                 data: {
+                    name: name,
                     textData: "",
                     nodeCount,
                     nodeNumber,

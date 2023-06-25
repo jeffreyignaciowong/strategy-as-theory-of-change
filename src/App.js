@@ -3,14 +3,18 @@ import './App.css';
 import Flow from './Flow';
 import { ReactFlowProvider } from "reactflow";
 import DnDFlow from "./DnDFlow";
+import { MantineProvider } from '@mantine/core';
 
 function App() {
   return (
     <div className="App" style={{height: "100vh"}}>
       {/*<Flow></Flow>*/}
+      {/*  <MantineProvider withGlobalStyles withNormalizeCSS>*/}
+        <MantineProvider>
         <ReactFlowProvider>
             <DnDFlow></DnDFlow>
         </ReactFlowProvider>
+        </MantineProvider>
       {/*<header className="App-header">*/}
       {/*  <img src={logo} className="App-logo" alt="logo" />*/}
       {/*  <p>*/}

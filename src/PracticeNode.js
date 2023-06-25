@@ -11,7 +11,7 @@ function PracticeNode({ data }) {
         <div className='resource-node'>
             <Handle type="target" position={Position.Left} />
             <div>
-                <label htmlFor="text">Practice {data.nodeNumber}</label>
+                <label htmlFor="text">{data.name} {data.nodeNumber}</label>
                 <textarea className="nodrag text-area" >
 
                 </textarea>
