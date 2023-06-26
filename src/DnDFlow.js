@@ -1,4 +1,4 @@
-import React, {useState, useRef, useCallback, useMemo} from 'react';
+import React, {useState, useRef, useCallback, useMemo } from 'react';
 import ReactFlow, {
     useReactFlow,
     ReactFlowProvider,
@@ -18,6 +18,8 @@ import FeedbackNode from "./FeedbackNode";
 
 import Sidebar from './Sidebar';
 
+import SetNodesContext from './SetNodesContext';
+
 import './index.css';
 
 const initialNodes = [
@@ -28,6 +30,7 @@ const initialNodes = [
     //     position: { x: 250, y: 5 },
     // },
 ];
+
 
 
 const DnDFlow = () => {
@@ -50,13 +53,57 @@ const DnDFlow = () => {
     const { setViewport } = useReactFlow();
     const [ nodeCount, setNodeCount ] = useState({});
     const [deletedNodes, setDeletedNodes] = useState({});
+    // for sidebar. Here so it can be saved
+    const [customNode, setCustomNode] = useState([]);
 
+    // false if null
     const onSave = () => {
         if (reactFlowInstance) {
-            const flow = reactFlowInstance.toObject();
+            // json object is the save data
+            const saveData = {
+                reactFlowInstance: reactFlowInstance.toObject(),
+                nodeCount: nodeCount,
+                deletedNodes: deletedNodes,
+                customNode: customNode,
+            }
+            console.log('saveData:');
+            console.dir(saveData);
+            return saveData;
             // localStorage.setItem(flowKey, JSON.stringify(flow));
         }
+        return false;
     };
+
+    const onRestore = (jsonData) => {
+        if (
+            typeof jsonData === 'object' &&
+            jsonData.hasOwnProperty('reactFlowInstance') &&
+            jsonData.hasOwnProperty('nodeCount') &&
+            jsonData.hasOwnProperty('deletedNodes') &&
+            jsonData.hasOwnProperty('customNode') &&
+            jsonData.reactFlowInstance.hasOwnProperty('viewport') &&
+            Array.isArray(jsonData.reactFlowInstance.edges) &&
+            Array.isArray(jsonData.reactFlowInstance.nodes)
+        ) {
+            const { x = 0, y = 0, zoom = 1 } = jsonData.reactFlowInstance.viewport;
+            setNodes(jsonData.reactFlowInstance.nodes || []);
+            setEdges(jsonData.reactFlowInstance.edges || []);
+            setViewport({ x, y, zoom });
+            setCustomNode(jsonData.customNode || []);
+            setNodeCount(jsonData.nodeCount || {});
+            setDeletedNodes(jsonData.deletedNodes || {});
+        } else {
+            alert('Please submit a valid SaveData.json file')
+            // const  x = 0, y = 0, zoom = 1;
+            // setNodes([]);
+            // setEdges([]);
+            // setViewport({ x, y, zoom });
+            // setCustomNode([]);
+            // setNodeCount({});
+            // setDeletedNodes({});
+
+        }
+    }
 
 
 
@@ -107,6 +154,7 @@ const DnDFlow = () => {
             markerEnd: {
                 type: MarkerType.ArrowClosed,
             },
+
         };
         return setEdges((eds) => addEdge(newEdge, eds));
     }, []);
@@ -120,7 +168,7 @@ const DnDFlow = () => {
     // In onDrop
     const createNodeHelper = (type, position, name, nodeNumber) => {
         const id = `${name}_${nodeNumber}`;
-
+        console.log(id)
         const newNode = {
             // sourcePosition: 'right',
             // targetPosition: 'left',
@@ -130,7 +178,9 @@ const DnDFlow = () => {
             data: {
                 name: name,
                 nodeNumber,
-                textData: "",
+                textAreaValue: '',
+                textAreaHeight: 35,
+                textAreaWidth: 180,
             },
             // data: { label: `${name}` },
         };
@@ -194,8 +244,11 @@ const DnDFlow = () => {
         [reactFlowInstance, deletedNodes, nodeCount]
     );
 
+    const sidebarProps = { customNode, setCustomNode,  onSave, onRestore };
+    console.log('DnDFlow rerender');
     return (
         <div className="dndflow">
+            <SetNodesContext.Provider value={setNodes} >
             {/*<ReactFlowProvider>*/}
                 <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                     <ReactFlow
@@ -215,8 +268,9 @@ const DnDFlow = () => {
                         <Controls />
                     </ReactFlow>
                 </div>
-                <Sidebar />
+                <Sidebar {...sidebarProps} />
             {/*</ReactFlowProvider>*/}
+            </SetNodesContext.Provider>
         </div>
     );
 };

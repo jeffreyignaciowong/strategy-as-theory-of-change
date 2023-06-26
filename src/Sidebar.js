@@ -3,11 +3,31 @@ import {useGetPointerPosition, useReactFlow} from 'reactflow';
 import {useDisclosure, useInputState} from '@mantine/hooks';
 import {MantineProvider, Modal, Group, Button, TextInput, Select, Space, Flex} from '@mantine/core';
 
-export default () => {
+
+const DownloadButton = ({ onSave, children }) => {
+    const handleDownload = () => {
+        const jsonData = onSave();
+        if (jsonData !== false) {
+            const jsonStr = JSON.stringify(jsonData);
+            const blob = new Blob([jsonStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'SaveData.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+    };
+
+    return (
+        <Button onClick={handleDownload}>{children}</Button>
+    );
+};
+
+const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [fieldCustomNode, setFieldCustomNode] = useInputState('');
     const [fieldCustomNodeType, setFieldCustomNodeType] = useInputState('');
-    const [customNode, setCustomNode] = useState([]);
     const [uploadFileData, setUploadFileData] = useState({});
 
     const { getEdges, getNodes } = useReactFlow();
@@ -15,6 +35,9 @@ export default () => {
         console.log(getEdges());
     }
 
+    const onSubmitFile = () => {
+        onRestore(uploadFileData);
+    }
     const handleFileChange = (e) => {
         const file = e.target.files[0]; // Get the uploaded file
         const reader = new FileReader(); // Create a file reader object
@@ -23,11 +46,27 @@ export default () => {
         reader.onload = (e) => {
             const fileContent = e.target.result; // Get the file contents
 
-            // Process the JSON data here (e.g., parse JSON or perform any desired operations)
-            setUploadFileData(JSON.parse(fileContent));
+            try {
+                const jsonData = JSON.parse(fileContent); // Parse the JSON data
 
-            // Use the jsonData or trigger any necessary actions with the parsed JSON data
-            console.log(uploadFileData);
+                if (typeof jsonData === 'object') {
+                    // Check if the parsed data is an object
+                    // Process the JSON data or trigger any necessary actions
+                    setUploadFileData(jsonData);
+                    console.log(jsonData);
+                } else {
+                    console.log('The uploaded file does not contain a valid JSON file.');
+                    alert('Please upload a valid json save file');
+                }
+            } catch (error) {
+                console.log('Error parsing JSON:', error);
+            }
+
+            // // Process the JSON data here (e.g., parse JSON or perform any desired operations)
+            // setUploadFileData(JSON.parse(fileContent));
+            //
+            // // Use the jsonData or trigger any necessary actions with the parsed JSON data
+            // console.log(uploadFileData);
         };
 
         reader.readAsText(file); // Read the file as text
@@ -37,20 +76,29 @@ export default () => {
         console.log(getNodes());
     }
     const onClickCustomNodeSubmit = (e) => {
-        console.log(fieldCustomNode)
-        console.log(fieldCustomNodeType)
-        setCustomNode((prevState) => {
-            prevState.push({
+        if (fieldCustomNodeType === '' || fieldCustomNode === '') {
+            alert('Please fill in fields');
+        } else {
+            console.log(fieldCustomNode)
+            console.log(fieldCustomNodeType)
+            setCustomNode((prevState) => ([...prevState, {
                 customNodeName: fieldCustomNode,
                 customNodeType: fieldCustomNodeType,
-                });
-            return prevState;
-        });
-        console.log(customNode);
-        setFieldCustomNode('');
-        setFieldCustomNodeType('');
-        // let test = prompt("Please enter your node name", 'None');
-        // console.log(test)
+            }]));
+            // setCustomNode((prevState) => {
+            //     prevState.push({
+            //         customNodeName: fieldCustomNode,
+            //         customNodeType: fieldCustomNodeType,
+            //         });
+            //     return prevState;
+            // });
+            console.log(customNode);
+            setFieldCustomNode('');
+            setFieldCustomNodeType('');
+            close();
+            // let test = prompt("Please enter your node name", 'None');
+            // console.log(test)
+        }
     }
     const onDragStart = (event, nodeValues) => {
         event.dataTransfer.setData('application/reactflow', JSON.stringify(nodeValues));
@@ -119,6 +167,12 @@ export default () => {
             <Button onClick={open}>Add Custom Node</Button>
             <Space h="sm" />
             <input type="file" onChange={handleFileChange} multiple={false} />
+            <Space h="sm" />
+            <Button onClick={onSubmitFile}>Upload File</Button>
+            <Space h="sm" />
+            <DownloadButton onSave={onSave} >Download Save</DownloadButton>
         </aside>
     );
 };
+
+export default Sidebar;
