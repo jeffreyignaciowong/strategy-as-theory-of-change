@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {useGetPointerPosition, useReactFlow} from 'reactflow';
 import {useDisclosure, useInputState} from '@mantine/hooks';
-import {MantineProvider, Modal, Group, Button, TextInput, Select, Space, Flex} from '@mantine/core';
+import {MantineProvider, Modal, Group, Button, TextInput, Select, Space, Flex, Text} from '@mantine/core';
+import GraphCalculations from "./GraphCalculations";
 
 
 const DownloadButton = ({ onSave, children }) => {
@@ -30,9 +31,22 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
     const [fieldCustomNodeType, setFieldCustomNodeType] = useInputState('');
     const [uploadFileData, setUploadFileData] = useState({});
 
-    const { getEdges, getNodes } = useReactFlow();
+    const [complexity, setComplexity ] = useState(false);
+    const [falsifiability, setFalsifiability] = useState(false);
+    const [replicability, setReplicability] = useState(false);
+
+    const { getEdges, getNodes, getNode } = useReactFlow();
     const onClickEdges = (e) => {
         console.log(getEdges());
+    }
+
+    const onClickCalculate = () => {
+        const graphCalculations = new GraphCalculations(getNodes(), getEdges(), getNode);
+        graphCalculations.calculateGeodesics();
+        const {complexity, falsifiability, replicability} = graphCalculations.calculateValues();
+        setComplexity(complexity);
+        setFalsifiability(falsifiability);
+        setReplicability(replicability);
     }
 
     const onSubmitFile = () => {
@@ -74,6 +88,7 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
 
     const onClickNodes = (e) => {
         console.log(getNodes());
+        console.log(getNode('Resources_1'));
     }
     const onClickCustomNodeSubmit = (e) => {
         if (fieldCustomNodeType === '' || fieldCustomNode === '') {
@@ -171,6 +186,12 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
             <Button onClick={onSubmitFile}>Upload File</Button>
             <Space h="sm" />
             <DownloadButton onSave={onSave} >Download Save</DownloadButton>
+            <Space h="sm" />
+            <Button onClick={onClickCalculate}>Calculate Values</Button>
+            <Space h="sm" />
+            {complexity && <Text>Complexity: {complexity}</Text>}
+            {falsifiability && <Text>Falsifiability: {falsifiability}</Text>}
+            {replicability && <Text>Replicability: {replicability}</Text>}
         </aside>
     );
 };
