@@ -134,9 +134,9 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
             <div className="dndnode output" onDragStart={(event) => onDragStart(event, {type:'PerformanceNode', name: 'Performance'})} draggable>
                 Performance
             </div>
-            <div className="dndnode" onDragStart={(event) => onDragStart(event, {type:'JointNode', name: 'JointNode'})} draggable>
-                Joint Node
-            </div>
+            {/*<div className="dndnode" onDragStart={(event) => onDragStart(event, {type:'JointNode', name: 'JointNode'})} draggable>*/}
+            {/*    Joint Node*/}
+            {/*</div>*/}
             <div className="dndnode" onDragStart={(event) => onDragStart(event, {type:'FeedbackNode', name: 'FeedbackNode'})} draggable>
                 Feedback Node
             </div>
@@ -174,10 +174,10 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
                 <Button onClick={onClickCustomNodeSubmit}>Submit</Button>
                 </Group>
             </Modal>
-            <Space h="sm" />
-            <Button onClick={onClickEdges}>Get Edges</Button>
-            <Space h="sm" />
-            <Button onClick={onClickNodes}>Get Nodes</Button>
+            {/*<Space h="sm" />*/}
+            {/*<Button onClick={onClickEdges}>Get Edges</Button>*/}
+            {/*<Space h="sm" />*/}
+            {/*<Button onClick={onClickNodes}>Get Nodes</Button>*/}
             <Space h="sm" />
             <Button onClick={open}>Add Custom Node</Button>
             <Space h="sm" />

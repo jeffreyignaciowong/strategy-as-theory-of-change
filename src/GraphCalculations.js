@@ -90,7 +90,7 @@ class GraphCalculations {
                                 this.performanceMapList.push(matrixKey);
                             }
                             if (startNodeType === 'ResourceNode' && neighbourType === 'PracticeNode') {
-                                this.resourcePracticeMapOfLists.get(startNode).push(matrixKey);
+                                this.resourcePracticeMapOfLists.get(startNode).push({matrixKey, practiceNode:neighbourNode});
                             }
                         }
                     }
@@ -127,29 +127,31 @@ class GraphCalculations {
 
     calculateReplicability () {
         let sum = 0;
+        const addedPracticeSet = new Set();
         for (const [, valueList] of this.resourcePracticeMapOfLists) {
-            console.log(`valueList ${valueList}`);
-            sum += this.calculateReplicabilityHelper(valueList);
+            // console.log(`valueList ${valueList}`);
+            for (let i = 0; i < valueList.length; i++) {
+                for (let j = i+1; j < valueList.length; j++) {
+                    if(this.matrixMap.get(valueList[i].matrixKey) > 0 && this.matrixMap.get(valueList[j].matrixKey) > 0) {
+                        const node1 = valueList[i].practiceNode;
+                        const node2 = valueList[j].practiceNode;
+                        const practiceSetKey = (node1 < node2)? (node1 + node2): (node2 + node1);
+                        if (!addedPracticeSet.has(practiceSetKey)) {
+                            sum +=1;
+                            addedPracticeSet.add(practiceSetKey)
+                        }
+                    }
+                }
+            }
         }
         // (Np(np-1))/2
         const summation = (this.practiceCount*(this.practiceCount-1))/2;
         const alpha = sum/summation;
 
-        console.log(`summation ${summation} alpha: ${alpha} sum: ${sum} resourceCount: ${this.resourceCount} practiceCount: ${this.practiceCount}`);
+        // console.log(`summation ${summation} alpha: ${alpha} sum: ${sum} resourceCount: ${this.resourceCount} practiceCount: ${this.practiceCount}`);
 
         // 1 + alpha*Nr*Np
         return 1 + (alpha*this.resourceCount*this.practiceCount);
-    }
-
-    calculateReplicabilityHelper (valueList) {
-        for (let i = 0; i < valueList.length; i++) {
-            for (let j = i+1; j < valueList.length; j++) {
-                if(this.matrixMap.get(valueList[i]) > 0 && this.matrixMap.get(valueList[j]) > 0) {
-                    return 1;
-                }
-            }
-        }
-        return 0;
     }
 }
 
