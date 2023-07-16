@@ -1,6 +1,4 @@
-import logo from './logo.svg';
 import './App.css';
-import Flow from './Flow';
 import { ReactFlowProvider } from "reactflow";
 import DnDFlow from "./DnDFlow";
 import { MantineProvider } from '@mantine/core';
