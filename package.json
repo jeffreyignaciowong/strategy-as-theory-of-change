@@ -1,5 +1,6 @@
 {
   "name": "example-3",
+  "homepage": "https://jeffreyignaciowong.github.io/strategy-as-theory-of-change",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
