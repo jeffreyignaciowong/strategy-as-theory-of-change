@@ -1,4 +1,4 @@
-// import './App.css';
+import './App.css';
 import { ReactFlowProvider } from "reactflow";
 import DnDFlow from "./DnDFlow";
 import { MantineProvider } from '@mantine/core';
