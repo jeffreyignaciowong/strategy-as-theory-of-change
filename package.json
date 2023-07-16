@@ -1,7 +1,6 @@
 {
   "name": "example-3",
   "version": "0.1.0",
-  "homepage": "https://jeffreyignaciowong.github.io/strategy-as-theory-of-change",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",

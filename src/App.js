@@ -3,6 +3,8 @@ import { ReactFlowProvider } from "reactflow";
 import DnDFlow from "./DnDFlow";
 import { MantineProvider } from '@mantine/core';
 
+//   "homepage": "https://jeffreyignaciowong.github.io/strategy-as-theory-of-change",
+
 function App() {
   return (
     <div className="App" style={{height: "100vh"}}>
