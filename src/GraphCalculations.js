@@ -101,10 +101,13 @@ class GraphCalculations {
         // console.log(this.matrixMap)
     }
     calculateValues () {
+        const complexity = this.calculateComplexity();
+        const falsifiability = this.calculateFalsifiability();
+        const replicability = this.calculateReplicability();
         return {
-            complexity: this.calculateComplexity(),
-            falsifiability: this.calculateFalsifiability(),
-            replicability: this.calculateReplicability(),
+            complexity: isNaN(complexity)? 'Not applicable for current theory': complexity,
+            falsifiability: isNaN(falsifiability)? 'Not applicable for current theory': falsifiability,
+            replicability: isNaN(replicability)? 'Not applicable for current theory': replicability,
         }
     }
     calculateComplexity () {

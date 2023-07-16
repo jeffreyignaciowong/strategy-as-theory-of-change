@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {useGetPointerPosition, useReactFlow} from 'reactflow';
+import {useReactFlow} from 'reactflow';
 import {useDisclosure, useInputState} from '@mantine/hooks';
-import {MantineProvider, Modal, Group, Button, TextInput, Select, Space, Flex, Text} from '@mantine/core';
+import {Modal, Group, Button, TextInput, Select, Space, Text} from '@mantine/core';
 import GraphCalculations from "./GraphCalculations";
 
 
@@ -36,9 +36,6 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
     const [replicability, setReplicability] = useState(false);
 
     const { getEdges, getNodes, getNode } = useReactFlow();
-    const onClickEdges = (e) => {
-        console.log(getEdges());
-    }
 
     const onClickCalculate = () => {
         const graphCalculations = new GraphCalculations(getNodes(), getEdges(), getNode);
@@ -86,11 +83,7 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
         reader.readAsText(file); // Read the file as text
     }
 
-    const onClickNodes = (e) => {
-        console.log(getNodes());
-        console.log(getNode('Resources_1'));
-    }
-    const onClickCustomNodeSubmit = (e) => {
+    const onClickCustomNodeSubmit = () => {
         if (fieldCustomNodeType === '' || fieldCustomNode === '') {
             alert('Please fill in fields');
         } else {
@@ -174,24 +167,20 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
                 <Button onClick={onClickCustomNodeSubmit}>Submit</Button>
                 </Group>
             </Modal>
-            {/*<Space h="sm" />*/}
-            {/*<Button onClick={onClickEdges}>Get Edges</Button>*/}
-            {/*<Space h="sm" />*/}
-            {/*<Button onClick={onClickNodes}>Get Nodes</Button>*/}
             <Space h="sm" />
             <Button onClick={open}>Add Custom Node</Button>
+            <Space h="sm" />
+            <DownloadButton onSave={onSave} >Download Save</DownloadButton>
             <Space h="sm" />
             <input type="file" onChange={handleFileChange} multiple={false} />
             <Space h="sm" />
             <Button onClick={onSubmitFile}>Upload File</Button>
             <Space h="sm" />
-            <DownloadButton onSave={onSave} >Download Save</DownloadButton>
+            <Button onClick={onClickCalculate}>Calculate Attributes</Button>
             <Space h="sm" />
-            <Button onClick={onClickCalculate}>Calculate Values</Button>
-            <Space h="sm" />
-            {complexity && <Text>Complexity: {complexity}</Text>}
-            {falsifiability && <Text>Falsifiability: {falsifiability}</Text>}
-            {replicability && <Text>Replicability: {replicability}</Text>}
+            {complexity !== false && <Text>Complexity: {complexity}</Text>}
+            {falsifiability !== false && <Text>Falsifiability: {falsifiability}</Text>}
+            {replicability !== false && <Text>Replicability: {replicability}</Text>}
         </aside>
     );
 };
