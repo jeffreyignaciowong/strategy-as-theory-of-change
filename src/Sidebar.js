@@ -4,7 +4,6 @@ import {useDisclosure, useInputState} from '@mantine/hooks';
 import {Modal, Group, Button, TextInput, Select, Space, Text} from '@mantine/core';
 import GraphCalculations from "./GraphCalculations";
 
-
 const DownloadButton = ({ onSave, children }) => {
     const handleDownload = () => {
         const jsonData = onSave();
@@ -40,6 +39,7 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
     const onClickCalculate = () => {
         const graphCalculations = new GraphCalculations(getNodes(), getEdges(), getNode);
         graphCalculations.calculateGeodesics();
+        // Three attribute values
         const {complexity, falsifiability, replicability} = graphCalculations.calculateValues();
         setComplexity(complexity);
         setFalsifiability(falsifiability);
