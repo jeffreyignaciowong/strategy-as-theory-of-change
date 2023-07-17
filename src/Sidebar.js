@@ -178,9 +178,9 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
             <Space h="sm" />
             <Button onClick={onClickCalculate}>Calculate Attributes</Button>
             <Space h="sm" />
-            {complexity !== false && <Text>Complexity: {complexity}</Text>}
-            {falsifiability !== false && <Text>Falsifiability: {falsifiability}</Text>}
-            {replicability !== false && <Text>Replicability: {replicability}</Text>}
+            {complexity !== false && <Text size="lg" >Complexity: {complexity}</Text>}
+            {falsifiability !== false && <Text size="lg" >Falsifiability: {falsifiability}</Text>}
+            {replicability !== false && <Text size="lg" >Replicability: {replicability}</Text>}
         </aside>
     );
 };

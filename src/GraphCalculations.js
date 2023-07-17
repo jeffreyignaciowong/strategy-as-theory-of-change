@@ -105,9 +105,9 @@ class GraphCalculations {
         const falsifiability = this.calculateFalsifiability();
         const replicability = this.calculateReplicability();
         return {
-            complexity: isNaN(complexity)? 'Not applicable for current theory': complexity,
-            falsifiability: isNaN(falsifiability)? 'Not applicable for current theory': falsifiability,
-            replicability: isNaN(replicability)? 'Not applicable for current theory': replicability,
+            complexity: isNaN(complexity)? 'Not applicable for current theory': complexity.toFixed(2),
+            falsifiability: isNaN(falsifiability)? 'Not applicable for current theory': falsifiability.toFixed(2),
+            replicability: isNaN(replicability)? 'Not applicable for current theory': replicability.toFixed(2),
         }
     }
     calculateComplexity () {
