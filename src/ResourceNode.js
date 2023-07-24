@@ -19,7 +19,7 @@ function ResourceNode({ data, id }) {
 
     const handleTextareaChange = (event) => {
         setTextAreaValue(event.target.value);
-        console.log(event.target.value);
+        // console.log(event.target.value);
     };
 
     useEffect(() => {
