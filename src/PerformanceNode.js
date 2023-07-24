@@ -22,12 +22,20 @@ function PerformanceNode({ data, id }) {
         console.log(event.target.value);
     };
 
+    useEffect(() => {
+        setTextAreaValue(data.textAreaValue.toString());
+        if (typeof data.textAreaHeight === 'number')
+            setTextAreaHeight(data.textAreaHeight);
+
+        if (typeof data.textAreaWidth === 'number')
+            setTextAreaWidth(data.textAreaWidth);
+    }, [data]);
 
     useEffect(() => {
         setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
-                    console.log('useEffect text area update')
+                    // console.log('useEffect text area update')
                     // it's important that you create a new object here
                     // in order to notify react flow about the change
                     node.data = {
@@ -40,7 +48,7 @@ function PerformanceNode({ data, id }) {
                 return node;
             })
         );
-    }, [textAreaValue, textAreaHeight, textAreaWidth, setNodes]);
+    }, [textAreaValue, textAreaHeight, textAreaWidth]);
 
     const onClickResize = (event) => {
         // Update textarea height and width based on content
@@ -49,8 +57,8 @@ function PerformanceNode({ data, id }) {
         const newWidth = event.target.scrollWidth - 4;
         setTextAreaHeight(newHeight)
         setTextAreaWidth(newWidth)
-        console.log(newHeight);
-        console.log(newWidth);
+        // console.log(newHeight);
+        // console.log(newWidth);
     }
 
     return (

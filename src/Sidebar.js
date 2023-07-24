@@ -64,9 +64,9 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
                     // Check if the parsed data is an object
                     // Process the JSON data or trigger any necessary actions
                     setUploadFileData(jsonData);
-                    console.log(jsonData);
+                    // console.log(jsonData);
                 } else {
-                    console.log('The uploaded file does not contain a valid JSON file.');
+                    // console.log('The uploaded file does not contain a valid JSON file.');
                     alert('Please upload a valid json save file');
                 }
             } catch (error) {
@@ -87,8 +87,8 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
         if (fieldCustomNodeType === '' || fieldCustomNode === '') {
             alert('Please fill in fields');
         } else {
-            console.log(fieldCustomNode)
-            console.log(fieldCustomNodeType)
+            // console.log(fieldCustomNode)
+            // console.log(fieldCustomNodeType)
             setCustomNode((prevState) => ([...prevState, {
                 customNodeName: fieldCustomNode,
                 customNodeType: fieldCustomNodeType,
@@ -100,7 +100,7 @@ const Sidebar = ({ customNode, setCustomNode,  onSave, onRestore }) => {
             //         });
             //     return prevState;
             // });
-            console.log(customNode);
+            // console.log(customNode);
             setFieldCustomNode('');
             setFieldCustomNodeType('');
             close();

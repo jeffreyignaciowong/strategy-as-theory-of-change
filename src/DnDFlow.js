@@ -66,8 +66,8 @@ const DnDFlow = () => {
                 deletedNodes: deletedNodes,
                 customNode: customNode,
             }
-            console.log('saveData:');
-            console.dir(saveData);
+            // console.log('saveData:');
+            // console.dir(saveData);
             return saveData;
             // localStorage.setItem(flowKey, JSON.stringify(flow));
         }
@@ -109,26 +109,26 @@ const DnDFlow = () => {
 
     const onNodesDelete = useCallback(
         (deleted) => {
-            console.log(deleted);
+            // console.log(deleted);
             deleted.forEach((node) => {
-                console.log("node");
-                console.log(node);
+                // console.log("node");
+                // console.log(node);
                 const nodeNum = node.data.nodeNumber;
                 // const nodeType = node.type;
                 const nodeName = node.data.name;
-                console.log(nodeNum);
-                console.log(nodeName);
+                // console.log(nodeNum);
+                // console.log(nodeName);
                 setDeletedNodes((prev) => {
                     if(prev[nodeName] === undefined) {
                         const res = { ...prev, [nodeName]: [nodeNum]};
-                        console.log('onNodesDelete new obj undefined:')
-                        console.log(res);
+                        // console.log('onNodesDelete new obj undefined:')
+                        // console.log(res);
                         return res
                     } else {
                         // sorting is not the fastest O(log(n)n)
                         const res = { ...prev, [nodeName]: [...prev[nodeName], nodeNum].sort((a, b) => a - b)}
-                        console.log('onNodesDelete new obj:')
-                        console.log(res);
+                        // console.log('onNodesDelete new obj:')
+                        // console.log(res);
                         return res
                     }
                 })
@@ -168,7 +168,7 @@ const DnDFlow = () => {
     // In onDrop
     const createNodeHelper = (type, position, name, nodeNumber) => {
         const id = `${name}_${nodeNumber}`;
-        console.log(id)
+        // console.log(id)
         const newNode = {
             // sourcePosition: 'right',
             // targetPosition: 'left',
@@ -193,7 +193,7 @@ const DnDFlow = () => {
             const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
             const jsonString = event.dataTransfer.getData('application/reactflow');
             const data = JSON.parse(jsonString);
-            console.log(data);
+            // console.log(data);
             const {type, name} = data;
             // const {type, name} = event.dataTransfer.getData('application/reactflow');
 
@@ -208,12 +208,12 @@ const DnDFlow = () => {
                 y: event.clientY - reactFlowBounds.top,
             });
 
-            console.log('deletedNodes in onDrop')
-            console.log(deletedNodes)
-            console.log('deletedNodes[name]')
-            console.log(deletedNodes[name])
-            console.log('name')
-            console.log(name)
+            // console.log('deletedNodes in onDrop')
+            // console.log(deletedNodes)
+            // console.log('deletedNodes[name]')
+            // console.log(deletedNodes[name])
+            // console.log('name')
+            // console.log(name)
             if(deletedNodes[name] !== undefined && deletedNodes[name].length > 0) {
                 // The queue is O(n) right now. might change later
                 //     const newList = [...(deletedNodes[name])]
@@ -222,8 +222,8 @@ const DnDFlow = () => {
                     const newList = [...(prev[name])]
                     const nodeNumber = newList.shift();
                     const res = {...prev, [name]: newList};
-                    console.log('recreate obj');
-                    console.log(res);
+                    // console.log('recreate obj');
+                    // console.log(res);
 
                     createNodeHelper(type, position, name, nodeNumber);
                     return res;
@@ -232,10 +232,10 @@ const DnDFlow = () => {
                 setNodeCount((prev)=> {
                     const nodeNumber = isNaN(prev[name]+1)? 1: prev[name]+1;
                     const res = { ...prev, [name]: nodeNumber };
-                    console.log('nodeNumber:');
-                    console.log(nodeNumber)
-                    console.log('new obj created');
-                    console.log(res);
+                    // console.log('nodeNumber:');
+                    // console.log(nodeNumber)
+                    // console.log('new obj created');
+                    // console.log(res);
                     createNodeHelper(type, position, name, nodeNumber);
                     return res;
                 })
@@ -245,7 +245,7 @@ const DnDFlow = () => {
     );
 
     const sidebarProps = { customNode, setCustomNode,  onSave, onRestore };
-    console.log('DnDFlow rerender');
+    // console.log('DnDFlow rerender');
     return (
         <div className="dndflow">
             <SetNodesContext.Provider value={setNodes} >
