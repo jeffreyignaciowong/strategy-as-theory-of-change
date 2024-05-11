@@ -7,12 +7,32 @@
     background: white;
 }
 
+.resource-node .content-wrapper{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
 .resource-node label {
-    display: block;
     color: black;
     font-size: 12px;
+    text-align: center;
 }
 
 .text-area {
     border-radius: 5px;
+}
+
+.toggle-btn{
+    display: inline-block;
+    margin-left: 5px;
+    margin: 1px;
+}
+
+.resource-node.checked{
+    box-shadow: 0 0 10px rgba(226, 200, 51, 0.8);
+}
+
+.resource-node.pruned-background{
+    background-color: gray;
 }

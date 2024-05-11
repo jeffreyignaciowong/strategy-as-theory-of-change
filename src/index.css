@@ -50,6 +50,10 @@ code {
   border-color: #ff0072;
 }
 
+.dndflow .dndnode.outcome {
+  border-color: purple;
+}
+
 .dndflow .reactflow-wrapper {
   flex-grow: 1;
   height: 100%;
@@ -68,4 +72,16 @@ code {
     width: 20%;
     max-width: 250px;
   }
+}
+
+.checkbox-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.checkbox-custom {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #000;
+  border-radius: 3px;
 }
